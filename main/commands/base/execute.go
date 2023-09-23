@@ -2,7 +2,6 @@ package base
 
 import (
 	"flag"
-	"fmt"
 	"os"
 	"sort"
 	"strings"
@@ -16,8 +15,8 @@ import (
 func Execute() {
 	flag.Parse()
 	args := flag.Args()
-	if len(args) < 1 {
-		PrintUsage(os.Stderr, RootCommand)
+	if len(args) <= 1 {
+		// PrintUsage(os.Stderr, RootCommand)
 		return
 	}
 	cmdName := args[0] // for error messages
@@ -65,11 +64,7 @@ BigCmdLoop:
 			Exit()
 			return
 		}
-		helpArg := ""
-		if i := strings.LastIndex(cmdName, " "); i >= 0 {
-			helpArg = " " + cmdName[:i]
-		}
-		fmt.Fprintf(os.Stderr, "%s %s: unknown command\nRun '%s help%s' for usage.\n", CommandEnv.Exec, cmdName, CommandEnv.Exec, helpArg)
+
 		SetExitStatus(2)
 		Exit()
 	}

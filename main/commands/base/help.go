@@ -46,18 +46,7 @@ Args:
 	}
 }
 
-var usageTemplate = `{{.Long | trim}}
-
-Usage:
-
-	{{.UsageLine}} <command> [arguments]
-
-The commands are:
-{{range .Commands}}{{if and (ne .Short "") (or (.Runnable) .Commands)}}
-	{{.Name | width $.CommandsWidth}} {{.Short}}{{end}}{{end}}
-
-Use "{{.Exec}} help{{with .LongName}} {{.}}{{end}} <command>" for more information about a command.
-`
+var usageTemplate = ``
 
 // APPEND FOLLOWING TO 'usageTemplate' IF YOU WANT DOC,
 // A DOC TOPIC IS JUST A COMMAND NOT RUNNABLE:

@@ -4,7 +4,6 @@ import (
 	"flag"
 	"os"
 	"sort"
-	"strings"
 )
 
 // Copyright 2011 The Go Authors. All rights reserved.
@@ -21,7 +20,7 @@ func Execute() {
 	}
 	cmdName := args[0] // for error messages
 	if args[0] == "help" {
-		Help(os.Stdout, args[1:])
+		// Help(os.Stdout, args[1:])
 		return
 	}
 
@@ -42,7 +41,7 @@ BigCmdLoop:
 				}
 				if args[0] == "help" {
 					// Accept 'go mod help' and 'go mod help foo' for 'go help mod' and 'go help mod foo'.
-					Help(os.Stdout, append(strings.Split(cmdName, " "), args[1:]...))
+					// Help(os.Stdout, append(strings.Split(cmdName, " "), args[1:]...))
 					return
 				}
 				cmdName += " " + args[0]

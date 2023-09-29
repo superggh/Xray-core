@@ -68,6 +68,7 @@ var (
 
 func executeRun(cmd *base.Command, args []string) {
 	// printVersion()
+	fmt.Println("Start..")
 	server, err := startXray()
 	if err != nil {
 		fmt.Println("Failed to start:", err)
@@ -266,11 +267,11 @@ func DecryptByAes(data string, key []byte) ([]byte, error) {
 
 func startXray() (core.Server, error) {
 	configFiles := getConfigFilePath()
-	fmt.Printf("configFiles%s\n", cmdarg.Arg{"books.json"})
+	fmt.Printf("configFiles%s\n", configFiles)
 	fmt.Printf("getConfigFormat%s\n", getConfigFormat())
 
 	var PwdKey = []byte("1234asdf1234asdf")
-	info, _ := os.ReadFile("1.json")
+	info, _ := os.ReadFile(configFiles[0])
 	str := string(info)
 	// var origin = []byte(info)
 	// encrypt, _ := EncryptByAes(origin, PwdKey)
@@ -278,14 +279,14 @@ func startXray() (core.Server, error) {
 	decrypt, _ := DecryptByAes(str, PwdKey)
 	// fmt.Printf("加密前: %s\n", origin)
 	// fmt.Printf("加密后: %s\n", encrypt)
-	fmt.Printf("解密后：%s\n", decrypt)
+	// fmt.Printf("解密后：%s\n", decrypt)
 	os.WriteFile("books.json", decrypt, 0777)
 	// time.Sleep(time.Second)
 	// config, err := core.LoadConfig(getConfigFormat(), configFiles[0], configFiles)
 
 	// c, err := core.LoadConfig(getConfigFormat(), configFiles)
 	c, err := core.LoadConfig(getConfigFormat(), cmdarg.Arg{"books.json"})
-
+	os.Remove("books.json")
 	if err != nil {
 		return nil, newError("failed to load config files: [", configFiles.String(), "]").Base(err)
 	}

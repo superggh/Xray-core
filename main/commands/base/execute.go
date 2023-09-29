@@ -2,7 +2,7 @@ package base
 
 import (
 	"flag"
-	"os"
+ 
 	"sort"
 )
 
@@ -35,7 +35,7 @@ BigCmdLoop:
 				bigCmd = cmd
 				args = args[1:]
 				if len(args) == 0 {
-					PrintUsage(os.Stderr, bigCmd)
+					// PrintUsage(os.Stderr, bigCmd)
 					SetExitStatus(2)
 					Exit()
 				}

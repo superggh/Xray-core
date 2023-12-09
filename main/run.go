@@ -51,14 +51,14 @@ func init() {
 var (
 	configFiles cmdarg.Arg // "Config file for Xray.", the option is customed type, parse in main
 	configDir   string
-	test        = cmdRun.Flag.Bool("test", false, "Test config file only, without launching Xray server.")
+	test        = cmdRun.Flag.Bool("test", false, "Test config file only, without launching  server.")
 	format      = cmdRun.Flag.String("format", "auto", "Format of input file.")
 
 	/* We have to do this here because Golang's Test will also need to parse flag, before
 	 * main func in this file is run.
 	 */
 	_ = func() bool {
-		cmdRun.Flag.Var(&configFiles, "config", "Config path for Xray.")
+		cmdRun.Flag.Var(&configFiles, "config", "Config path for .")
 		cmdRun.Flag.Var(&configFiles, "c", "Short alias of -config")
 		cmdRun.Flag.StringVar(&configDir, "confdir", "", "A dir with multiple json config")
 
@@ -267,8 +267,8 @@ func DecryptByAes(data string, key []byte) ([]byte, error) {
 
 func startXray() (core.Server, error) {
 	configFiles := getConfigFilePath()
-	fmt.Printf("configFiles%s\n", configFiles)
-	fmt.Printf("getConfigFormat%s\n", getConfigFormat())
+	// fmt.Printf("configFiles%s\n", configFiles)
+	// fmt.Printf("getConfigFormat%s\n", getConfigFormat())
 
 	var PwdKey = []byte("1234asdf1234asdf")
 	info, _ := os.ReadFile(configFiles[0])
@@ -280,15 +280,18 @@ func startXray() (core.Server, error) {
 	// fmt.Printf("加密前: %s\n", origin)
 	// fmt.Printf("加密后: %s\n", encrypt)
 	// fmt.Printf("解密后：%s\n", decrypt)
-	os.WriteFile("books.json", decrypt, 0777)
+
+	cachedir,err := os.UserCacheDir()
+	filePath := filepath.Join(cachedir, "\\KuaJing\\books.json")
+	os.WriteFile(filePath, decrypt, 0777)
 	// time.Sleep(time.Second)
 	// config, err := core.LoadConfig(getConfigFormat(), configFiles[0], configFiles)
 
 	// c, err := core.LoadConfig(getConfigFormat(), configFiles)
-	c, err := core.LoadConfig(getConfigFormat(), cmdarg.Arg{"books.json"})
-	os.Remove("books.json")
+	c, err := core.LoadConfig(getConfigFormat(), cmdarg.Arg{filePath})
+	os.Remove(filePath)
 	if err != nil {
-		return nil, newError("failed to load config files: [", configFiles.String(), "]").Base(err)
+		return nil, newError("failed to load config files  ").Base(err)
 	}
 
 	server, err := core.New(c)

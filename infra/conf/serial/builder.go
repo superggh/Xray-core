@@ -11,7 +11,7 @@ import (
 func BuildConfig(files []string, formats []string) (*core.Config, error) {
 	cf := &conf.Config{}
 	for i, file := range files {
-		newError("Reading config: ", file).AtInfo().WriteToLog()
+		// newError("Reading config: ", file).AtInfo().WriteToLog()
 		r, err := confloader.LoadConfig(file)
 		if err != nil {
 			return nil, newError("failed to read config: ", file).Base(err)

@@ -20,7 +20,7 @@ func init() {
 			case cmdarg.Arg:
 				cf := &conf.Config{}
 				for i, arg := range v {
-					newError("Reading config: ", arg).AtInfo().WriteToLog()
+					// newError("Reading config: ", arg).AtInfo().WriteToLog()
 					r, err := confloader.LoadConfig(arg)
 					if err != nil {
 						return nil, newError("failed to read config: ", arg).Base(err)
